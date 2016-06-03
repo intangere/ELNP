@@ -16,8 +16,7 @@ class ELN(object):
 		rules = choice(self.rules)[1:]
 		for part in rules.split("|"):
 			try:
-				word = 
-choice(self.word_list[part]).strip()
+				word = choice(self.word_list[part]).strip()
 				sentence += "%s " % word
 			except Exception as e:
 				print "%s not defined" % part
@@ -57,24 +56,20 @@ choice(self.word_list[part]).strip()
 				try:
 					typ = word[1]
 					if self.word_list.has_key(typ):
-						if word[0] in 
-self.word_list[typ]:
+						if word[0] in self.word_list[typ]:
 							pass
 						else:
-							
-self.word_list[typ].append(word[0])
+							self.word_list[typ].append(word[0])
 					else:
 						self.word_list[typ] = []
-						
-self.word_list[typ].append(word[0])
+						self.word_list[typ].append(word[0])
 				except Exception as e:
 					pass
 		print "Task completed"
 
 	def extractTopic(self, text):
 		self.log("INPUT", text)
-		rules = ["NN|NN", "JJ|JJ", "VBP|NNS", "VBG|NN", 
-"VBG|NNS", "JJ|NN", "JJS|NN", "NNP|NNP"]
+		rules = ["NN|NN", "JJ|JJ", "VBP|NNS", "VBG|NN", "VBG|NNS", "JJ|NN", "JJS|NN", "NNP|NNP"]
 		text = nltk.pos_tag(nltk.word_tokenize(text))
 		topics = []
 		nnp = False
@@ -91,12 +86,9 @@ self.word_list[typ].append(word[0])
 					nnp = True
 					print part[1]
 					topics.append(' %s' % part[0])				
-				if '|'.join([part[1], text[i+1][1]]) in 
-rules:
-					topic = ' '.join([part[0], 
-text[i+1][0]])
-					if topic not in topics and "." 
-not in topic:
+				if '|'.join([part[1], text[i+1][1]]) in rules:
+					topic = ' '.join([part[0], text[i+1][0]])
+					if topic not in topics and "." not in topic:
 						topics.append(topic)
 			except Exception as e:
 				pass
@@ -111,10 +103,8 @@ not in topic:
 		#Let's now clean chained NN|NN and JJ|JJ
 		for i, topic in enumerate(topics):
 			try:
-				if topic.split(' ')[1] == 
-topics[i+1].split(' ')[0]:
-					topics[i] = ' 
-'.join([topic.split(' ')[0], topics[i+1]])
+				if topic.split(' ')[1] == topics[i+1].split(' ')[0]:
+					topics[i] = ' '.join([topic.split(' ')[0], topics[i+1]])
 					del topics[i+1]
 			except Exception as e:
 				pass
